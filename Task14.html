@@ -1,0 +1,104 @@
+<html>
+    <body>
+        <form onsubmit="saveLocalStorage(event)">
+            <label>Name</label>
+            <input type="text" name="username" required/>
+            <label>Email ID</label>
+            <input type="email" name="EmailId" required/>
+            <label>Phone Number</label>
+            <input type="tel" name="PhoneNumber" required/>
+            <button>Submit</button>
+        </form>
+        <ul id="userList"></ul>
+
+        <script>
+            // Load data from local storage and populate the UI on page load
+            window.addEventListener('DOMContentLoaded', function() {
+                loadFromLocalStorage();
+            });
+
+            function saveLocalStorage(event) {
+                event.preventDefault();
+                const name = event.target.username.value;
+                const email = event.target.EmailId.value;
+                const phonenumber = event.target.PhoneNumber.value;
+
+                const user = {
+                    name: name,
+                    email: email,
+                    phonenumber: phonenumber
+                };
+
+                // Save the user data to local storage
+                const users = loadFromLocalStorage();
+                users.push(user);
+                localStorage.setItem('users', JSON.stringify(users));
+
+                // Clear the form inputs
+                event.target.username.value = '';
+                event.target.EmailId.value = '';
+                event.target.PhoneNumber.value = '';
+
+                // Refresh the user list
+                loadFromLocalStorage();
+            }
+
+            function loadFromLocalStorage() {
+                const userList = document.getElementById('userList');
+                userList.innerHTML = ''; // Clear the previous list
+
+                // Retrieve user data from local storage
+                const users = JSON.parse(localStorage.getItem('users')) || [];
+
+                // Populate the UI with user data
+                for (let i = 0; i < users.length; i++) {
+                    const user = users[i];
+                    const li = document.createElement('li');
+                    li.textContent = `Name: ${user.name}, Email: ${user.email}, Phone: ${user.phonenumber}`;
+
+                    // Create edit and delete buttons for each user entry
+                    const editButton = document.createElement('button');
+                    editButton.textContent = 'Edit';
+                    editButton.addEventListener('click', function() {
+                        editUser(i);
+                    });
+
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = 'Delete';
+                    deleteButton.addEventListener('click', function() {
+                        deleteUser(i);
+                    });
+
+                    li.appendChild(editButton);
+                    li.appendChild(deleteButton);
+                    userList.appendChild(li);
+                }
+
+                return users;
+            }
+
+            function editUser(index) {
+                const users = loadFromLocalStorage();
+                const user = users[index];
+
+                // Update the form inputs with the existing user data
+                const form = document.querySelector('form');
+                form.username.value = user.name;
+                form.EmailId.value = user.email;
+                form.PhoneNumber.value = user.phonenumber;
+
+                // Remove the user entry from local storage
+                users.splice(index, 1);
+                localStorage.setItem('users', JSON.stringify(users));
+                loadFromLocalStorage(); // Refresh the user list after removal
+            }
+
+            function deleteUser(index) {
+                const users = loadFromLocalStorage();
+                users.splice(index, 1);
+                localStorage.setItem('users', JSON.stringify(users));
+                loadFromLocalStorage(); // Refresh the user list after deletion
+            }
+        </script>
+    </body>
+</html>
