@@ -1,0 +1,81 @@
+<html>
+    <body>
+        <form onsubmit="saveLocalStorage(event)">
+            <label>Name</label>
+            <input type="text" name="username" required/>
+            <label>EmailId</label>
+            <input type="email" name="EmailId" required/>
+            <label>Phone Number</label>
+            <input type="tel" name="PhoneNumber" required/>
+            <button>Submit</button>
+        </form>
+        <ul id="userList"></ul>
+
+        <script>
+            // Load data from local storage and populate the UI on page load
+            window.addEventListener('DOMContentLoaded', function() {
+                loadFromLocalStorage();
+            });
+
+            function saveLocalStorage(event) {
+                event.preventDefault();
+                const name = event.target.username.value;
+                const email = event.target.EmailId.value;
+                const phonenumber = event.target.PhoneNumber.value;
+                
+                const user = {
+                    name: name,
+                    email: email,
+                    phonenumber: phonenumber
+                };
+
+                // Save the user data to local storage
+                const users = loadFromLocalStorage();
+                users.push(user);
+                localStorage.setItem('users', JSON.stringify(users));
+
+                // Clear the form inputs
+                event.target.username.value = '';
+                event.target.EmailId.value = '';
+                event.target.PhoneNumber.value = '';
+
+                // Refresh the user list
+                loadFromLocalStorage();
+            }
+
+            function loadFromLocalStorage() {
+                const userList = document.getElementById('userList');
+                userList.innerHTML = ''; // Clear the previous list
+
+                // Retrieve user data from local storage
+                const users = JSON.parse(localStorage.getItem('users')) || [];
+
+                // Populate the UI with user data
+                for (let i = 0; i < users.length; i++) {
+                    const user = users[i];
+                    const li = document.createElement('li');
+                    li.textContent = `Name: ${user.name}, Email: ${user.email}, Phone: ${user.phonenumber}`;
+
+                    // Create a delete button for each user entry
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = 'Delete';
+                    deleteButton.addEventListener('click', function() {
+                        deleteUser(i);
+                    });
+
+                    li.appendChild(deleteButton);
+                    userList.appendChild(li);
+                }
+
+                return users;
+            }
+
+            function deleteUser(index) {
+                const users = loadFromLocalStorage();
+                users.splice(index, 1);
+                localStorage.setItem('users', JSON.stringify(users));
+                loadFromLocalStorage(); // Refresh the user list after deletion
+            }
+        </script>
+    </body>
+</html>
