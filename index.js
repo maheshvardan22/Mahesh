@@ -1,18 +1,17 @@
 
+var secondItem = document.querySelector("#items .list-group-item:nth-child(2)");
+secondItem.style.backgroundColor = "green";
 
-var itemsContainer = document.getElementById('items');
-var newItem = document.createElement('li');
-newItem.textContent = 'New Item';
-itemsContainer.appendChild(newItem);
 
-var items = document.getElementsByClassName('list-group-item');
-if (items.length > 0) {
-  items[items.length - 1].style.backgroundColor = 'blue';
+var thirdItem = document.querySelector("#items .list-group-item:nth-child(3)");
+thirdItem.style.display = "none";
+
+var items = document.querySelectorAll("#items .list-group-item");
+if (items.length >= 2) {
+  items[1].style.color = "green";
 }
 
-var listItems = itemsContainer.getElementsByTagName('li');
-if (listItems.length > 0) {
-  listItems[listItems.length - 1].style.fontWeight = 'italic';
-}
-
-
+var oddItems = document.querySelectorAll("#items .list-group-item:nth-child(odd)");
+oddItems.forEach(function(item) {
+  item.style.backgroundColor = "green";
+});

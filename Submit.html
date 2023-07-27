@@ -1,6 +1,6 @@
 <html>
     <body>
-        <form onsubmit="saveToLocalStorage(event)">
+        <form onsubmit="saveLocalStorage(event)">
         <label>Name</label>
         <input type="text" name="username" required/>
         <label>EmailId</label>
@@ -10,7 +10,7 @@
         <button>Submit</button>
         </form>
         <script>
-            function saveToLocalStorage(event) {
+            function saveLocalStorage(event) {
                 event.preventDefalt();
                 const name = event.target.user
                 const email= event.target.emailId.value;
