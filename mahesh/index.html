@@ -79,16 +79,46 @@
               
                 showAppointments();
               }
-              
-              //function deleteAppointment(index) {
-                function deleteAppointment(_id) {
-  axios.delete(`https://crudcrud.com/api/5e913bf4bbbc45b390f47369020d1d1c/appointments/${_id}`)
-    .then(() => {
-      showAppointments();
+                function editAppointment(_id) {
+  axios.get(`https://crudcrud.com/api/5e913bf4bbbc45b390f47369020d1d1c/appointments/${_id}`)
+    .then((response) => {
+      const appointment = response.data;
+      if (!appointment) {
+        return;
+      }
+
+      document.getElementById('name').value = appointment.name;
+      document.getElementById('email').value = appointment.email;
+      document.getElementById('phone').value = appointment.phone;
+
+      document.getElementById('bookingForm').onsubmit = function(event) {
+        event.preventDefault();
+
+        const updatedAppointment = {
+          name: document.getElementById('name').value,
+          email: document.getElementById('email').value,
+          phone: document.getElementById('phone').value,
+        };
+
+        axios.put(`https://crudcrud.com/api/5e913bf4bbbc45b390f47369020d1d1c/appointments/${_id}`, updatedAppointment)
+          .then(() => {
+            showAppointments();
+            clearForm();
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      };
     })
     .catch((err) => {
       console.error(err);
     });
+}
+
+function clearForm() {
+  document.getElementById('name').value = '';
+  document.getElementById('email').value = '';
+  document.getElementById('phone').value = '';
 }
 
 function showAppointments() {
@@ -104,8 +134,8 @@ function showAppointments() {
           <span>Name: ${appointment.name}</span><br>
           <span>Email ID: ${appointment.email}</span><br>
           <span>Phone Number: ${appointment.phone}</span><br>
-          <button onclick="editAppointment('${appointment._id}')">Edit</button>
-          <button onclick="deleteAppointment('${appointment._id}')">Delete</button>
+          <button onclick="editAppointment('${appointment._id}')"><i class="bi bi-pencil"></i></button>
+          <button onclick="deleteAppointment('${appointment._id}')"><i class="bi bi-trash"></i></button>
           <hr>
         `;
         listElement.appendChild(listItem);
@@ -121,7 +151,6 @@ function showAppointments() {
 
 showAppointments();
 
-              showAppointments();
               </script>
         </form>
 
