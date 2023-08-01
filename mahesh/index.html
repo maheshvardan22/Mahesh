@@ -81,15 +81,46 @@
               }
               
               //function deleteAppointment(index) {
-                axios.post("https://crudcrud.com/api/5e913bf4bbbc45b390f47369020d1d1c/appointments",obj)
-                .then((response) => {
-                    showNewUserOnScreen(response.data)
+                function deleteAppointment(_id) {
+  axios.delete(`https://crudcrud.com/api/5e913bf4bbbc45b390f47369020d1d1c/appointments/${_id}`)
+    .then(() => {
+      showAppointments();
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+}
 
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
-              
+function showAppointments() {
+  axios.get('https://crudcrud.com/api/5e913bf4bbbc45b390f47369020d1d1c/appointments')
+    .then((response) => {
+      const appointmentsList = response.data;
+      const listElement = document.getElementById('list');
+      listElement.innerHTML = '';
+
+      appointmentsList.forEach((appointment) => {
+        const listItem = document.createElement('li');
+        listItem.innerHTML = `
+          <span>Name: ${appointment.name}</span><br>
+          <span>Email ID: ${appointment.email}</span><br>
+          <span>Phone Number: ${appointment.phone}</span><br>
+          <button onclick="editAppointment('${appointment._id}')">Edit</button>
+          <button onclick="deleteAppointment('${appointment._id}')">Delete</button>
+          <hr>
+        `;
+        listElement.appendChild(listItem);
+      });
+
+      const appointmentsListDiv = document.getElementById('appointmentsList');
+      appointmentsListDiv.style.display = 'block';
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+}
+
+showAppointments();
+
               showAppointments();
               </script>
         </form>
