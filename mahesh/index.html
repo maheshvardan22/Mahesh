@@ -1,34 +1,234 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Expense Tracker</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to Foodie Delight</title>
+  <link rel="icon" href="icon.ico">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    /* Custom CSS styles can be added here */
+    body {
+      background-color: lightgrey;
+    }
+    .jumbotron {
+      background-image: url('https://github.com/maheshvardan22/FirstGit/blob/52023d4b1bba3cd91369a06b03f6f6a8f42cc08c/back.jpg');
+      background-size: cover;
+      color: white;
+      background-image: url(back.jpg);
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    /* Add more custom styles as needed */
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Expense Tracker</h1>
-        <form id="expenseForm">
-            <label for="description">Description:</label>
-            <input type="text" id="description" name="description" required>
 
-            <label for="amount">Amount:</label>
-            <input type="number" id="amount" name="amount" required>
+<div class="jumbotron text-center">
+    <h1>Welcome to My Food! </h1>
+    <p>Your go-to destination for delicious food!</p>
+    <a href="menu.html" class="btn btn-primary btn-lg">View Menu</a>
+  </div>
 
-            <button type="submit">Add Expense</button>
-        </form>
-
-        <div id="expensesList">
-            <h2>Expenses List</h2>
-            <ul id="list"></ul>
+<section id="menu" class="container">
+  <h4>Items with 50% off</h4>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card">
+        <img src="foods/rices/Chicken Biryani.jpg" class="card-img-top" alt="Chicken Biryani">
+        <div class="card-body">
+          <h5 class="card-title">Chicken Biryani</h5>
+          <p class="card-text">Price: ₹ 300</p>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <button class="btn btn-outline-secondary" type="button" onclick="decreaseQuantity('burgerQuantity', 'burgerPrice', 300)">-</button>
+            </div>
+            <input type="number" class="form-control" id="burgerQuantity" value="1" min="1">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="button" onclick="increaseQuantity('burgerQuantity', 'burgerPrice', 300)">+</button>
+            </div>
+          </div>
+          <p>Total Price: ₹ <span id="burgerPrice">300.00</span></p>
+          <a href="selected-items.html" class="btn btn-primary">Order Now</a>
+          <button class="btn btn-link" data-toggle="collapse" data-target="#itemDetails1">View More</button>
+          <div id="itemDetails1" class="collapse">
+            <!-- Add more details about the item here -->
+          50% off          </div>
         </div>
+      </div>
     </div>
 
+    <!-- Add two more menu items -->
+    <div class="col-md-4">
+      <div class="card">
+        <img src="foods/thali/mandi.jpg" class="card-img-top" alt="mandi">
+        <div class="card-body">
+          <h5 class="card-title">Mixed Mandi(Full)</h5>
+          <p class="card-text">Price: ₹ 450</p>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <button class="btn btn-outline-secondary" type="button" onclick="decreaseQuantity('pizzaQuantity', 'pizzaPrice', 450)">-</button>
+            </div>
+            <input type="number" class="form-control" id="pizzaQuantity" value="1" min="1">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="button" onclick="increaseQuantity('pizzaQuantity', 'pizzaPrice', 450)">+</button>
+            </div>
+          </div>
+          <p>Total Price: ₹ <span id="pizzaPrice">450.00</span></p>
+          <a href="selected-items.html" class="btn btn-primary">Order Now</a>
+          <button class="btn btn-link" data-toggle="collapse" data-target="#itemDetails2">View More</button>
+          <div id="itemDetails2" class="collapse">
+            <!-- Add more details about the item here -->
+         50% off          </div>
+        </div>
+      </div>
+    </div>
 
+    <div class="col-md-4">
+      <div class="card">
+        <img src="foods/fast food/maffuns.jpg" class="card-img-top" alt="Maffuns">
+        <div class="card-body">
+          <h5 class="card-title">Veg Maffuns</h5>
+          <p class="card-text">Price: ₹ 250</p>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <button class="btn btn-outline-secondary" type="button" onclick="decreaseQuantity('sandwichQuantity', 'sandwichPrice', 250)">-</button>
+            </div>
+            <input type="number" class="form-control" id="sandwichQuantity" value="1" min="1">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="button" onclick="increaseQuantity('sandwichQuantity', 'sandwichPrice', 250)">+</button>
+            </div>
+          </div>
+          <p>Total Price: ₹ <span id="sandwichPrice">250.00</span></p>
+          <a href="selected-items.html" class="btn btn-primary">Order Now</a>
+          <button class="btn btn-link" data-toggle="collapse" data-target="#itemDetails3">View More</button>
+          <div id="itemDetails3" class="collapse">
+            <!-- Add more details about the item here -->
+          50% off          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-   
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="script.js"></script>
+<section id="contact" class="container">
+  <h2 class="text-center mb-4">Contact Us</h2>
+  <div class="row">
+    <div class="col-md-6">
+      <h5>Connect with Us on Social Media</h5>
+      <ul class="list-unstyled">
+        <li><a href="https://www.facebook.com/foodiedelight" target="_blank"><img src="foods/logos/fb.png" alt="Facebook">Facebook</a></li>
+        <li><a href="#"><img src="foods/logos/x.png" alt="X">Twitter X</a></li>
+        <li><a href="https://www.telegram.com/MyFood"><img src="foods/logos/telegram.png" alt="telegram">Telegram</a></li>
+        <li><a href="https://www.instagram.com/foodiedelight/" target="_blank"><img src="foods/logos/insta.png" alt="Instagram">Instagram</a></li>
+      </ul>
+      <p>Phone: +123-456-7890</p>
+    </div>
+    <div class="col-md-6">
+      <h5>Send Us a Message</h5>
+      <form>
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" class="form-control" id="name" placeholder="Your Name">
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" class="form-control" id="email" placeholder="Your Email">
+        </div>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea class="form-control" id="message" rows="4" placeholder="Your Message"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Send</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section id="reviews" class="container">
+  <h2 class="text-center mb-4">Reviews</h2>
+  <div id="carouselReviews" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <blockquote class="blockquote text-center">
+          <p class="mb-0">"Delicious food and excellent service! I will definitely be coming back for more."</p>
+          <footer class="blockquote-footer">Sunil</footer>
+        </blockquote>
+      </div>
+      <div class="carousel-item">
+        <blockquote class="blockquote text-center">
+          <p class="mb-0">"The Biryani was mouthwatering! Highly recommended."</p>
+          <footer class="blockquote-footer">Bhramhanandham</footer>
+        </blockquote>
+      </div>
+      <div class="carousel-item">
+        <blockquote class="blockquote text-center">
+          <p class="mb-0">"It was truly Ultimate food, Great work!"</p>
+          <footer class="blockquote-footer">Venu Madav</footer>
+        </blockquote>
+      </div>
+      <!-- Add more fake reviews here -->
+    </div>
+    <a class="carousel-control-prev" href="#carouselReviews" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselReviews" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+  <div class="text-center mt-4">
+    <a href="#feedback" class="btn btn-primary">Leave Feedback</a>
+  </div>
+</section>
+
+<section id="feedback" class="container">
+  <h2 class="text-center mb-4">Feedback</h2>
+  <form>
+    <div class="form-group">
+      <label for="feedbackName">Name</label>
+      <input type="text" class="form-control" id="feedbackName" placeholder="Your Name">
+    </div>
+    <div class="form-group">
+      <label for="feedbackMessage">Your Feedback</label>
+      <textarea class="form-control" id="feedbackMessage" rows="4" placeholder="Your Feedback"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit Feedback</button>
+  </form>
+</section>
+
+<footer class="text-center py-4">
+  <p>&copy; 2023 Foodie Delight. All rights reserved.</p>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+  // JavaScript functions for updating quantity and total price
+  function updateTotalPrice(quantityInputId, totalPriceId, pricePerItem) {
+    const quantityInput = document.getElementById(quantityInputId);
+    const totalPriceElement = document.getElementById(totalPriceId);
+    const quantity = parseInt(quantityInput.value);
+    const total = quantity * pricePerItem;
+    totalPriceElement.textContent = total.toFixed(2);
+  }
+
+  function increaseQuantity(quantityInputId, totalPriceId, pricePerItem) {
+    const quantityInput = document.getElementById(quantityInputId);
+    quantityInput.value = parseInt(quantityInput.value) + 1;
+    updateTotalPrice(quantityInputId, totalPriceId, pricePerItem);
+  }
+
+  function decreaseQuantity(quantityInputId, totalPriceId, pricePerItem) {
+    const quantityInput = document.getElementById(quantityInputId);
+    const currentQuantity = parseInt(quantityInput.value);
+    if (currentQuantity > 1) {
+      quantityInput.value = currentQuantity - 1;
+      updateTotalPrice(quantityInputId, totalPriceId, pricePerItem);
+    }
+  }
+</script>
+
 </body>
 </html>

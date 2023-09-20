@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waiter's Life</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        h2, h3, h4 {
+            color: #333333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="text-center">Dish Menu</h2>
+        <div>
+            <h3>Add Dish</h3>
+            <div class="form-group">
+                <label for="name">Dish Name:</label>
+                <input type="text" class="form-control" placeholder="Dish Name" id="name" alt="Dish Name">
+            </div>
+            <div class="form-group">
+                <label for="price">Dish Price:</label>
+                <input type="number" class="form-control" placeholder="Dish Price" alt="Dish Price" id="price">
+            </div>
+            <div class="form-group">
+                <label for="table">Select Table:</label>
+                <select class="form-control" name="select Table" id="table">
+                    <option value="1">Table 1</option>
+                    <option value="2">Table 2</option>
+                    <option value="3">Table 3</option>
+                </select>
+            </div>
+            <button class="btn btn-primary" id="save">Save</button>
+        </div>
+        <h3>Saved Items</h3>
+        <div>
+            <h4>Table 1</h4>
+            <ul class="list-group" id="table1"></ul>
+            <h4>Table 2</h4>
+            <ul class="list-group" id="table2"></ul>
+            <h4>Table 3</h4>
+            <ul class="list-group" id="table3"></ul>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> 
+    <script>
+        const nameInput = document.getElementById('name');
+        const priceInput = document.getElementById('price');
+        const tableSelect = document.getElementById('table');
+        const saveButton = document.getElementById('save');
+        const table1List = document.getElementById('table1');
+        const table2List = document.getElementById('table2');
+        const table3List = document.getElementById('table3');
+        function createDeleteButton(listItem) {
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Delete';
+            deleteButton.classList.add('btn', 'btn-danger');
+            deleteButton.addEventListener('click', function () {
+                listItem.remove();
+                saveDataToLocalStorage();
+            });
+            return deleteButton;
+        }
+        function saveDataToLocalStorage() {
+            const table1Items = Array.from(table1List.children).map(item => item.textContent);
+            const table2Items = Array.from(table2List.children).map(item => item.textContent);
+            const table3Items = Array.from(table3List.children).map(item => item.textContent);
+            localStorage.setItem('table1Items', JSON.stringify(table1Items));
+            localStorage.setItem('table2Items', JSON.stringify(table2Items));
+            localStorage.setItem('table3Items', JSON.stringify(table3Items));
+        }
+        function loadDataFromLocalStorage() {
+            const table1Items = JSON.parse(localStorage.getItem('table1Items')) || [];
+            const table2Items = JSON.parse(localStorage.getItem('table2Items')) || [];
+            const table3Items = JSON.parse(localStorage.getItem('table3Items')) || [];
+            table1Items.forEach(item => {
+                const listItem = createListItem(item);
+                table1List.appendChild(listItem);
+            });
+            table2Items.forEach(item => {
+                const listItem = createListItem(item);
+                table2List.appendChild(listItem);
+            });
+            table3Items.forEach(item => {
+                const listItem = createListItem(item);
+                table3List.appendChild(listItem);
+            });
+        }
+        function createListItem(itemText) {
+            const listItem = document.createElement('li');
+            listItem.textContent = itemText;
+            const subList = document.createElement('ul');
+            listItem.appendChild(subList);
+            const deleteButton = createDeleteButton(listItem);
+            listItem.appendChild(deleteButton);
+            return listItem;
+        }
+        saveButton.addEventListener('click', function () {
+            const dishName = nameInput.value.trim();
+            const dishPrice = priceInput.value.trim();
+            const selectedTable = tableSelect.value;
+            if (dishName === '' || dishPrice === '') {
+                alert('Please fill in all details before saving.');
+                return;
+            }
+            const listItemText = `${table1List.childElementCount + 1}. ${dishName} - ₹${dishPrice}`;
+            const listItem = createListItem(listItemText);
+            switch (selectedTable) {
+                case '1':
+                    table1List.appendChild(listItem);
+                    break;
+                case '2':
+                    table2List.appendChild(listItem);
+                    break;
+                case '3':
+                    table3List.appendChild(listItem);
+                    break;
+                default:
+                    alert('Please select a table.');
+            }
+            saveDataToLocalStorage();
+            nameInput.value = '';
+            priceInput.value = '';
+        });
+        loadDataFromLocalStorage();
+    </script>
+</body>
+</html>

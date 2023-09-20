@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Selected Items</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<style>
+  body{
+    background-color: aquamarine;
+  }
+</style>
+</head>
+<body>
+
+<section id="selected-items" class="container">
+  <h2 class="text-center mb-4">Selected Items</h2>
+  <div id="selectedItemsList">
+    <!-- Selected items will be dynamically added here using JavaScript -->
+  </div>
+  <h4 class="text-center mt-4">Total Amount: ₹ <span id="totalAmount">0.00</span></h4>
+  <div class="text-center mt-4">
+    <button class="btn btn-primary" onclick="showCouponPopup()">Add Coupon</button>
+  </div>
+</section>
+
+<div id="couponPopup" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <p>CONGRATULATIONS! You claimed and received a FREE FOOD!</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+  const selectedItemsList = document.getElementById('selectedItemsList');
+  const totalAmountElement = document.getElementById('totalAmount');
+  const cart = {};
+
+  function updateSelectedItemsList() {
+    selectedItemsList.innerHTML = '';
+    let totalAmount = 0;
+
+    for (const itemId in cart) {
+      const { quantity, total } = cart[itemId];
+      const item = menuData.find(item => item.id === parseInt(itemId));
+      const listItem = document.createElement('div');
+      listItem.className = 'selected-item';
+      listItem.innerHTML = `
+        <p>${item.name} (Qty: ${quantity}) - ₹ ${total.toFixed(2)}</p>
+        <button class="btn btn-danger btn-sm" onclick="removeFromCart(${itemId}, ${item.price})">Remove</button>
+      `;
+
+      selectedItemsList.appendChild(listItem);
+      totalAmount += total;
+    }
+
+    totalAmountElement.textContent = "580";
+  }
+
+  function showCouponPopup() {
+    $('#couponPopup').modal('show');
+  }
+
+  function addToCart(itemId, price) {
+    const quantity = cart[itemId] ? cart[itemId].quantity + 1 : 1;
+    const total = quantity * price;
+    cart[itemId] = { quantity, total };
+    updateSelectedItemsList();
+  }
+
+  function removeFromCart(itemId, price) {
+    delete cart[itemId];
+    updateSelectedItemsList();
+  }
+
+  // ... (Rest of the JavaScript code remains unchanged) ...
+</script>
+
+</body>
+</html>
